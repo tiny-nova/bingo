@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bingo Ticker</title>
+    </head>
+    <body onload="get()">
+        <input id="r0c0" type="checkbox" onclick="get()" onclick="get()"><input id="r0c1" type="checkbox" onclick="get()"><input id="r0c2" type="checkbox" onclick="get()"><input id="r0c3" type="checkbox" onclick="get()"><input id="r0c4" type="checkbox" onclick="get()">   <button onclick="get()">Refresh output</button><br>
+        <input id="r1c0" type="checkbox" onclick="get()"><input id="r1c1" type="checkbox" onclick="get()"><input id="r1c2" type="checkbox" onclick="get()"><input id="r1c3" type="checkbox" onclick="get()"><input id="r1c4" type="checkbox" onclick="get()"><br>
+        <input id="r2c0" type="checkbox" onclick="get()"><input id="r2c1" type="checkbox" onclick="get()"><input id="r2c2" type="checkbox" onclick="get()"><input id="r2c3" type="checkbox" onclick="get()"><input id="r2c4" type="checkbox" onclick="get()"><br>
+        <input id="r3c0" type="checkbox" onclick="get()"><input id="r3c1" type="checkbox" onclick="get()"><input id="r3c2" type="checkbox" onclick="get()"><input id="r3c3" type="checkbox" onclick="get()"><input id="r3c4" type="checkbox" onclick="get()"><br>
+        <input id="r4c0" type="checkbox" onclick="get()"><input id="r4c1" type="checkbox" onclick="get()"><input id="r4c2" type="checkbox" onclick="get()"><input id="r4c3" type="checkbox" onclick="get()"><input id="r4c4" type="checkbox" onclick="get()"><br>
+        <label>Import:</label><input id="import" type="text"><button id="load" onclick="set(); get()">Load</button><p id="output">Output: 0</p>
+    </body>
+</html>
+<script>
+function get() {
+    checkboxes = [];
+    for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 5; c++) {
+            checkboxes.push(document.getElementById("r" + r + "c" + c).checked);
+        };
+    };
+    num = 0;
+    for (let x = 0; x < checkboxes.length; x++) {
+        if (checkboxes[x]) {
+            num = num + 2 ** x;
+        }
+    }
+    document.getElementById("output").innerHTML = "Output: " + num;
+};
+
+function set() {
+    val = document.getElementById("import").value;
+    if (!/^\d+$/.test(val)) {return};
+    output = [];
+    for (let x = 24; x >= 0; x--) {
+        if (val >= 2 ** x) {
+            output.push(true);
+            val = val - 2 ** x;
+        } else {
+            output.push(false);
+        };
+    };
+    output.reverse();
+    for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 5; c++) {
+            document.getElementById("r" + r + "c" + c).checked = output[c + (r * 5)];
+        };
+    };
+}
+</script>
